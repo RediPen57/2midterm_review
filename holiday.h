@@ -1,6 +1,7 @@
 #pragma once
-#include <iostream>
+#include <string>
 #include "dayOfYear.h"
+#include <iostream>
 
 namespace KimYeonjin2693058
 {

@@ -1,171 +1,57 @@
 #include <iostream>
-#include "holiday.h"
+//no need #include "holiday.h"
 #include "holidayGroup.h"
 
 int main()
 {
-	holiday h1{newYears, {1,1}}, h2{halloween, {10, 31}}, h3{independanceDay, {8, 15}};
-	KimYeonjin2693058::holidayGroup* holPtr{group1, };
-	holPtr.addHoliday(h1);
-	holPtr.addHoliday(h2);
-	holPtr.addHoliday(h3);
+	using namespace KimYeonjin2693058;
 
+	holiday h1{"NewYear Day", dayOfYear{1,1}}, h2{"Independance Day", dayOfYear{8, 15}}, h3{"Christmas", dayOfYear{12,25}};
+	holidayGroup* hgPtr{ new holidayGroup{"Korea's Holiday"} };
+
+	hgPtr->addHoliday(h1);
+	hgPtr->addHoliday(h2);
+	hgPtr->addHoliday(h3);
+
+	hgPtr->print();
+
+	delete hgPtr;
+
+	return 0;
 }
-// 다음은 실습시간에 다룬 dayOfYear, holiday 클래스입니다. 
-const int daysInMonth[13]{0,31,28,31,30,31,30,31,31,30,31,30,31};    
-class dayOfYear
-{
-	int month; 
-	int day;  
-	void testMonth() 
-	{
-		if (month < 1 || month > 12)
-		{
-			std::cout << "Invalid month\n";
-			std::exit(1);
-		}
-	}
-	void testDay()
-	{
-		if (day < 1 || day > daysInMonth[month])
-		{
-			std::cout << "Invalid day\n";
-			std::exit(1);
-		}
-	}
-	void updateDay()
-	{
-		int maxDay{daysInMonth[month]};
-		if (day > maxDay)
-		{
-			day -= maxDay; month += 1;
-			if (month > 12) month = 1;
-		}
-	}
-public:
-	dayOfYear(int m = 1, int d = 1):month{m}, day{d} 
-	{
-		testMonth();
-		testDay();
-	}
-	void input()
-	{
-		std::cout << "Enter month: ";
-		std::cin >> month; testMonth();
-		std::cout << "Enter day: ";
-		std::cin >> day; testDay();
-	}
-	friend std::istream& operator>>(std::istream& is, dayOfYear& d)
-	{
-		std::cout << "Enter month: ";
-		is >> d.month; d.testMonth();
-		std::cout << "Enter day: ";
-		is >> d.day; d.testDay();
-		return is;            
-	}
-	void setMonth(int m) {month = m; testMonth();}
-	void setDay(int d) {day = d; testDay();}
-	void print() const
-	{
-		switch(month)
-		{
-		case 1: std::cout << "Jan. "; break;
-		case 2: std::cout << "Feb. "; break;
-		case 3: std::cout << "Mar. "; break;
-		case 4: std::cout << "Apr. "; break;
-		case 5: std::cout << "May. "; break;
-		case 6: std::cout << "Jun. "; break;
-		case 7: std::cout << "Jul. "; break;
-		case 8: std::cout << "Aug. "; break;
-		case 9: std::cout << "Sep. "; break;
-		case 10: std::cout << "Oct. "; break;
-		case 11: std::cout << "Nov. "; break;
-		case 12: std::cout << "Dec. "; break;
-		} 
-		std::cout << day << "\n";
-	}
-	friend std::ostream& operator<<(std::ostream& os, const dayOfYear& d)
-	{
-		switch(d.month)
-		{
-		case 1: os << "Jan. "; break;
-		case 2: os << "Feb. "; break;
-		case 3: os << "Mar. "; break;
-		case 4: os << "Apr. "; break;
-		case 5: os << "May. "; break;
-		case 6: os << "Jun. "; break;
-		case 7: os << "Jul. "; break;
-		case 8: os << "Aug. "; break;
-		case 9: os << "Sep. "; break;
-		case 10: os << "Oct. "; break;
-		case 11: os << "Nov. "; break;
-		case 12: os << "Dec. "; break;
-		} 
-		os << d.day << "\n";
-		return os;
-	}
-	int getMonth() const {return month;}
-	int getDay() const {return day;}
-	dayOfYear operator++() 
-	{
-		++day; updateDay();            
-		return dayOfYear{month, day};
-	}
-	dayOfYear operator++(int)
-	{   
-		dayOfYear temp{month, day};
-		day++; updateDay();   
-		return temp;
-	}
-	friend bool operator==(const dayOfYear& d1, const dayOfYear& d2)
-	{
-		return d1.month == d2.month && d1.day == d2.day;
-	}
-	friend dayOfYear operator+(const dayOfYear& d1, const dayOfYear& d2)
-	{
-		return dayOfYear{d1.month + d2.month, d1.day + d2.day};
-	}
-};
 
-class holiday
-{
-	std::string name; 
-	dayOfYear date;
-public:        
-	holiday(const std::string& n = "no name yet",
-		dayOfYear d = dayOfYear{1,1})
-		: name{n}, date{d}
-	{}
-	void print() const 
-	{
-		std::cout << name << ": ";
-		date.print(); 
-	}
-	friend std::ostream& operator<<(std::ostream& os, const holiday& h)
-	{
-		os << h.name << ": ";
-		os << h.date;
-		return os;
-	}
-	friend std::istream& operator>>(std::istream& is, holiday& h)
-	{
-		std::cout << "Enter holiday name: ";
-		std::getline(is >> std::ws, h.name);
-		is >> h.date; 
-		return is;
-	}
-	void input()
-	{
-		std::cout << "Enter holiday name: ";
-		std::getline(std::cin >> std::ws, name);
-		date.input();
-	}
-	const std::string& getName() const {return name;}
-	const dayOfYear& getDate() const { return date; }
-	void setName(const std::string& n) {name = n;}
-	void setDate(const dayOfYear& d) { date = d; }
-};
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // 1. dayOfYear.h파일에 dayOfYear class를 인라인으로 구현하려고 합니다. 다음을 확인하여 위 코드를 변경하여 dayOfYear.h파일을 완성해보세요. 
 // 1-1. 헤더가드, 전처리지시자를 넣으세요.
 // 1-2. 본인이름학번의 네임스페이스안에 dayOfYear class를 정의하세요.

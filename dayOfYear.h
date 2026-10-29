@@ -27,10 +27,11 @@ namespace KimYeonjin2693058
         void updateDay()
         {
             int maxDay{daysInMonth[month]};
-             for(day; day > maxDay;)
+             while (day > maxDay)
             {
                 day -= maxDay; month += 1;
                 if (month > 12) month = 1;
+                maxDay = daysInMonth[month];
             }
            
         }
@@ -102,31 +103,38 @@ namespace KimYeonjin2693058
         }
         int getMonth() const {return month;}
         int getDay() const {return day;}
-        dayOfYear operator++() 
+        dayOfYear& operator++() 
         {
             ++day; updateDay();            
-            return dayOfYear{month, day};
+            return *this;
         }
         dayOfYear operator++(int)
         {   
-            dayOfYear temp{month, day};
-            day++; updateDay();   
+            dayOfYear temp{*this};
+            ++(*this);//or// day++; updateDay();   
             return temp;
         }
+        
+        dayOfYear& operator +=(int d)
+        {
+            day +=  d;updateDay();
+            return *this;
+        }
+
         friend bool operator==(const dayOfYear& d1, const dayOfYear& d2)
         {
             return d1.month == d2.month && d1.day == d2.day;
         }
 
-        dayOfYear operator +=(int d)
-        {
-            this->day + d;
-            return *this;
-        }    
+        // dayOfYear operator +=(int d)
+        // {
+        //     this->day + d;
+        //     return *this;
+        // }    
 
-        friend dayOfYear operator+(int d)
+        dayOfYear operator+(int d)
         {
-            return dayOfYear{this += d};
+            return (*this)+=d;
         }
     };
 

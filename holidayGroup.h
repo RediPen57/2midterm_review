@@ -5,36 +5,32 @@
 
 namespace KimYeonjin2693058
 {
+    const int max{10};
     class holidayGroup
     {
-        const int max{10};
         std::string groupName;
-        std::array<std::holiday, max> holidayList;
+        std::array<KimYeonjin2693058::holiday, max> holidayList;
         int n;
     public:
-        holidayGroup(std::string newGroupName) : groupname{newGroupName}, n{0} {}
+        holidayGroup(const std::string& newGroupName) : groupName{newGroupName}, n{0} {}
         void addHoliday(const holiday& h)
         {
-            if(n >= max)
-            return exit(1);
-            holdiayList[n] = h;
+            if(n >= max){
+            std::cout << "exiting...\n";
+            std::exit(1);}
+            holidayList[n] = h; n += 1;
         }
 
         void print() const
         {
             std::cout << "group name is: " << groupName << std::endl;
-            for(n{1}; n < max; i++)
+            for(int i = 0; i < n; i++)
             std::cout << "Holiday list: " << holidayList[i] << std::endl;
         }
-        std::string& getGroupName() const
+        const std::string& getGroupName() const
         {
             return groupName;
         }
         void setGroupname (const std::string& n) {groupName = n;}
-
-
-
-    }
-    
-    
+    };
 }
